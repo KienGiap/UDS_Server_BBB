@@ -12,6 +12,7 @@ int main() {
 
     Udscontrol udscontrol(queue);
     udscontrol.serviceMap.emplace(0x10, std::make_unique<DiagnosticSessionControl>());
+    udscontrol.serviceMap.emplace(0x22, std::make_unique<ReadDataByIdentifier>());
     udscontrol.startService();
 
     while(1) {

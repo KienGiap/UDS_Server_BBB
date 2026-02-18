@@ -69,4 +69,9 @@ void TcpServer::send_response(const int &clientSocket) {
     std::vector<uint8_t> dummy_response = {0x50, 0x01, 0x02, 0x03}; // Example response data
     // send(clientSocket, dummy_response.data(), dummy_response.size(), 0);
     send(clientSocket, messageQueue.getbuff(), messageQueue.buffersize(), 0);
+    std::cout << "Response sent: ";
+    for (size_t i = 0; i < messageQueue.buffersize(); i++) {
+        std::cout << std::hex << static_cast<int>(messageQueue.getbuff()[i]) << " ";
+    }
+    std::cout << std::endl;
 }

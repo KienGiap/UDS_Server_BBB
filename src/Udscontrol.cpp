@@ -1,5 +1,5 @@
 #include<Udscontrol.h>
-
+// #define DEBUG_PRINT 
 Udscontrol::Udscontrol(ThreadSafeQueue& queue) : messageQueue(queue) {}
 
 void Udscontrol::startService() {
@@ -28,9 +28,18 @@ void Udscontrol::handlemessage()
         sid = messageQueue.getbuffer().at(0);
         if(serviceMap.find(sid) != serviceMap.end()) {
             messageQueue.getbuffer().clear();
+            /* use for testing
             std::vector<uint8_t> dummy = {50,0x48};
-            messageQueue.getbuffer() = dummy;
-            //messageQueue.getbuffer() = serviceMap.at(sid)->execute();
+            messageQueue.getbuffer() = dummy; 
+            */
+            messageQueue.getbuffer() = serviceMap.at(sid)->execute();
+#ifdef DEBUG_PRINT
+            std::cout << "Data: " << std::hex;
+            for (const auto& byte : messageQueue.getbuffer()) {
+                std::cout << static_cast<int>(byte) << " ";
+            }
+            std::cout << std::dec << std::endl;
+#endif
             messageQueue.udsHanding.store(false);
             messageQueue.cv.notify_one();
             // std::cout << "Supported SID" << std::endl;

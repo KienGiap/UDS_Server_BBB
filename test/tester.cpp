@@ -22,8 +22,25 @@ int main()
             sizeof(serverAddress));
 
     // sending data
-    const char* message = "Hello, server!";
+    const char message[] = {0x22, 0x4C, 0x20}; // Example message data
     send(clientSocket, message, strlen(message), 0);
+    std::cout << "Message sent: ";
+    for (size_t i = 0; i < strlen(message); i++) {
+        std::cout << std::hex << static_cast<int>(message[i]) << " ";
+    }
+    std::cout << std::endl;
+
+    uint8_t buffer[1024];
+    int len = recv(clientSocket, buffer, sizeof(buffer), 0);
+    if (len > 0) {
+        std::cout << "Message received: ";
+        for (int i = 0; i < len; i++) {
+            std::cout << std::hex << static_cast<int>(buffer[i]) << " ";
+        }
+        std::cout << std::endl;
+    } else {
+        std::cout << "Failed to receive message from server" << std::endl;
+    }
 
     // closing socket
     close(clientSocket);

@@ -21,7 +21,7 @@ public:
     std::vector<uint8_t> execute() override {
         // Implementation for Diagnostic Session Control
         // TODO
-        return {};
+        return {0x50,0x48};
     }
 };
 // SID 0x22: Read Data by Identifier Service
@@ -30,7 +30,7 @@ public:
     std::vector<uint8_t> execute() override {
         // Implementation for Diagnostic Session Control
         // TODO
-        return {50,0x4C};
+        return {0x62,0x4C,0x12, 0x34}; // Example response data
     }
 };
 // SID 0x2E: Write Data by Identifier Service
